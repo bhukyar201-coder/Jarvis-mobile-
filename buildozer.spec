@@ -12,20 +12,24 @@ source.include_exts = py,png,jpg,kv,json
 
 version = 1.0
 
-requirements = kivy,requests
+requirements = python3,kivy,requests
 
 orientation = portrait
 
 fullscreen = 0
 
 
-# Android settings
+# Android
 
 android.api = 35
 
 android.minapi = 24
 
 android.archs = arm64-v8a
+
+android.accept_sdk_license = True
+
+android.build_tools_version = 35.0.0
 
 android.allow_backup = True
 
