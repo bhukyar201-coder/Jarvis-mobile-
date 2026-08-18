@@ -1,4 +1,4 @@
-no[app]
+[app]
 
 title = Jarvis AI
 
