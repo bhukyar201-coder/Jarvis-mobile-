@@ -28,7 +28,7 @@ jobs:
 
       - name: Setup Android SDK
         run: |
-          mkdir -p $HOME/android-sdk/cmdline-tools
+          mkdir -p $HOME/android-sdk
           cd $HOME/android-sdk
 
           wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
@@ -36,18 +36,17 @@ jobs:
           unzip -q commandlinetools-linux-11076708_latest.zip
 
           mkdir -p cmdline-tools/latest
-          mv cmdline-tools cmdline-tools/temp || true
-          mv cmdline-tools/temp/* cmdline-tools/latest/ || true
+
+          mv cmdline-tools/bin cmdline-tools/lib cmdline-tools/NOTICE.txt cmdline-tools/source.properties cmdline-tools/latest/
 
           export ANDROID_HOME=$HOME/android-sdk
-          export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
+          export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 
           yes | sdkmanager --licenses || true
 
           sdkmanager "platform-tools"
           sdkmanager "platforms;android-35"
           sdkmanager "build-tools;37.0.0"
-          sdkmanager "cmdline-tools;latest"
 
       - name: Build APK
         run: |
