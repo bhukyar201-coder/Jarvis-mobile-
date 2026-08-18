@@ -3,7 +3,7 @@ name: Build APK
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: false
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -23,19 +25,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install buildozer cython==0.29.36
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Install Android tools
+        run: |
+          sudo apt update
+          sudo apt install -y android-sdk-build-tools android-sdk-platform-tools
 
       - name: Accept Android licenses
         run: |
           yes | sdkmanager --licenses || true
-
-      - name: Install Android packages
-        run: |
-          sdkmanager "platform-tools"
-          sdkmanager "platforms;android-35"
-          sdkmanager "build-tools;35.0.0"
-          sdkmanager "build-tools;36.0.0"
 
       - name: Build APK
         run: |
@@ -44,5 +41,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-apk
+          name: jarvis-apk
           path: bin/*.apk
