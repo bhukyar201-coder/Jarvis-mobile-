@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -21,18 +22,40 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update -y
-          sudo apt install -y git zip unzip wget android-sdk
+          sudo apt install -y git zip unzip wget openjdk-17-jdk
           pip install --upgrade pip
           pip install buildozer cython==0.29.36
 
       - name: Setup Android SDK
         run: |
-          yes | sdkmanager --licenses || true
-          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+          mkdir -p $HOME/android-sdk
+          
+          cd $HOME/android-sdk
+          
+          wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
+          
+          unzip commandlinetools-linux-11076708_latest.zip
+          
+          mkdir -p cmdline-tools/latest
+          
+          mv cmdline-tools/* cmdline-tools/latest/ || true
+          
+          export ANDROID_HOME=$HOME/android-sdk
+          export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
+          
+          yes | sdkmanager --licenses
+          
+          sdkmanager "platform-tools"
+          sdkmanager "platforms;android-35"
+          sdkmanager "build-tools;35.0.0"
+
 
       - name: Build APK
         run: |
+          export ANDROID_HOME=$HOME/android-sdk
+          export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
           buildozer android debug
+
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
