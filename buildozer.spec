@@ -1,4 +1,4 @@
-[app]
+no[app]
 
 title = Jarvis AI
 
@@ -21,7 +21,7 @@ fullscreen = 0
 
 # Android settings
 
-android.api = 33
+android.api = 35
 
 android.minapi = 24
 
