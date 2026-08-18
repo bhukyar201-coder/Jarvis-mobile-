@@ -4,7 +4,7 @@ title = Jarvis AI
 
 package.name = jarvis
 
-package.domain = org.example
+package.domain = org.jarvis
 
 source.dir = .
 
@@ -12,7 +12,7 @@ source.include_exts = py,png,jpg,kv,json
 
 version = 1.0
 
-requirements = python3,kivy,requests
+requirements = kivy,requests
 
 orientation = portrait
 
